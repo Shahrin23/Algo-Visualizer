@@ -21,10 +21,7 @@ The **Algorithm Visualizer** is an educational tool built with **C++** and the *
 ## 2. Watch Visualizer Demo:
 
 
-
-https://github.com/user-attachments/assets/1d3a1364-668d-445c-87ac-c616ad395bce
-
-
+https://github.com/user-attachments/assets/42a1cb8f-8c80-4133-95f1-a15a3ad56b80
 
 
 ## 3. User Instructions
@@ -57,7 +54,7 @@ Follow these steps to explore the visualizer:
 ### Setup
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/AntaraAn/AlgoVisualizer.git](https://github.com/AntaraAn/AlgoVisualizer.git)
+    git clone [https://github.com/AntaraAn/Algo-Visualizer.git](https://github.com/AntaraAn/Algo-Visualizer.git)
     ```
 2.  Open `CMakeLists.txt` file in **Qt Creator**.
 3.  Ensure the console output is enabled in your configuration to see the traversal logs.
