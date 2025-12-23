@@ -3,7 +3,7 @@
 
 ---
 
-## 1. Introduction
+# 1. Introduction
 The **Algorithm Visualizer** is an educational tool built with **C++** and the **Qt Framework** designed to bring abstract computer science concepts to life. By transforming complex logic into real-time animations, this project provides a "behind-the-scenes" look at how data structures are manipulated.
 
 **Key Features:**
