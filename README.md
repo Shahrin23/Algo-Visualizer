@@ -18,10 +18,12 @@ The **Algorithm Visualizer** is an educational tool built with **C++** and the *
 
 ---
 
-## 2. Watch Visualizer
+## 2. Watch Visualizer Demo:
 
 
-![linkedpp](https://github.com/user-attachments/assets/2e5d4f69-d2ba-4b73-bbce-7f062dbb2736)
+
+https://github.com/user-attachments/assets/1d3a1364-668d-445c-87ac-c616ad395bce
+
 
 
 
