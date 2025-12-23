@@ -3,14 +3,17 @@
 
 ---
 
-# 1. Introduction
+## 1. Introduction
 The **Algorithm Visualizer** is an educational tool built with **C++** and the **Qt Framework** designed to bring abstract computer science concepts to life. By transforming complex logic into real-time animations, this project provides a "behind-the-scenes" look at how data structures are manipulated.
 
 **Key Features:**
-* **Dynamic Sorting:** Visualize array-based sorting with real-time bar manipulations.
+
+* **Dynamic Sorting:** Visualize array-based sorting with real-time bar manipulations.* 
 * **Graph Theory Sandbox:** Manually place nodes and construct edges to visualize Shortest Path and Spanning Tree algorithms.
+* 
 * **Binary Tree Layout:** Automatically converts comma-separated integer inputs into a hierarchical tree structure using array-based mapping ($2i+1$ and $2i+2$).
 * **Live Traversal:** Step-by-step coloring of nodes during Inorder, Preorder, and Postorder traversals.
+* 
 * **Performance Metrics:** Real-time LCD counters to track the time complexity and execution speed of each algorithm.
 
 ---
@@ -19,7 +22,7 @@ The **Algorithm Visualizer** is an educational tool built with **C++** and the *
 
 
 
----
+
 
 ## 3. User Instructions
 Follow these steps to explore the visualizer:
