@@ -10,10 +10,10 @@ The **Algorithm Visualizer** is an educational tool built with **C++** and the *
 
 * **Dynamic Sorting:** Visualize array-based sorting with real-time bar manipulations.* 
 * **Graph Theory Sandbox:** Manually place nodes and construct edges to visualize Shortest Path and Spanning Tree algorithms.
-* 
+ 
 * **Binary Tree Layout:** Automatically converts comma-separated integer inputs into a hierarchical tree structure using array-based mapping ($2i+1$ and $2i+2$).
 * **Live Traversal:** Step-by-step coloring of nodes during Inorder, Preorder, and Postorder traversals.
-* 
+ 
 * **Performance Metrics:** Real-time LCD counters to track the time complexity and execution speed of each algorithm.
 
 ---
