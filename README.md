@@ -6,38 +6,43 @@
 ## 1. Introduction
 The **Algorithm Visualizer** is an educational tool built with **C++** and the **Qt Framework** designed to bring abstract computer science concepts to life. By transforming complex logic into real-time animations, this project provides a "behind-the-scenes" look at how data structures are manipulated.
 
-**Key Features:**
+**Key Features :**
 
-* **Dynamic Sorting:** Visualize array-based sorting with real-time bar manipulations.* 
+* **Dynamic Sorting :** Visualize array-based sorting with real-time bar manipulations.* 
 * **Graph Theory Sandbox:** Manually place nodes and construct edges to visualize Shortest Path and Spanning Tree algorithms.
  
-* **Binary Tree Layout:** Automatically converts comma-separated integer inputs into a hierarchical tree structure using array-based mapping ($2i+1$ and $2i+2$).
-* **Live Traversal:** Step-by-step coloring of nodes during Inorder, Preorder, and Postorder traversals.
+* **Binary Tree Layout :** Automatically converts comma-separated integer inputs into a hierarchical tree structure using array-based mapping ($2i+1$ and $2i+2$).
+* **Live Traversal :** Step-by-step coloring of nodes during Inorder, Preorder, and Postorder traversals.
  
-* **Performance Metrics:** Real-time LCD counters to track the time complexity and execution speed of each algorithm.
+* **Performance Metrics :** Real-time LCD counters to track the time complexity and execution speed of each algorithm.
 
 ---
 
 ## 2. Watch Visualizer
 
 
+![linkedpp](https://github.com/user-attachments/assets/2e5d4f69-d2ba-4b73-bbce-7f062dbb2736)
 
 
 
 ## 3. User Instructions
 Follow these steps to explore the visualizer:
 
-1.  **Navigation:** Use the main menu to switch between Sorting, Graph, and Tree pages.
+1.  **Navigation :** Use the main menu to switch between Sorting, Graph, and Tree pages.
+   
 2.  **For example in Tree Visualizer:**
     * Click the **Input** button on the Tree page.
     * Enter up to 50 integers separated by commas (e.g., `10, 20, 30, 40, 50`).
     * The first integer becomes the root, and subsequent values follow binary tree array-representation rules.
-3.  **Algorithm Selection:** Choose the desired algorithm (e.g., Inorder) from the ComboBox.
-4.  **Simulation Control:**
+   
+3.  **Algorithm Selection :** Choose the desired algorithm (e.g., Inorder) from the ComboBox.
+  
+4.  **Simulation Control :**
     * Adjust the **Interval** spinbox to change the animation speed.
     * Press **Start** to begin (nodes will reset to their default color before starting).
     * Press **Stop** to halt the animation at any time.
-5.  **Terminal Feedback:** The final traversal sequence is printed to the terminal console for verification.
+      
+5.  **Terminal Feedback :** The final traversal sequence is printed to the terminal console for verification.
 
 ---
 
