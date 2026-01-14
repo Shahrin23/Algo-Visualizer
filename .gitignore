@@ -1,0 +1,13 @@
+# Ignore build directories
+build/
+*build*
+cmake-build-*/
+
+# Ignore Qt Creator project settings
+.qtcreator/
+*.pro.user
+*.pro.user.*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
