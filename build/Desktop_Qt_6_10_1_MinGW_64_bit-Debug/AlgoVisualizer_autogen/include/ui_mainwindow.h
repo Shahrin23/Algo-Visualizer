@@ -109,7 +109,7 @@ public:
         centralwidget->setMaximumSize(QSize(800, 16777215));
         layoutWidget = new QWidget(centralwidget);
         layoutWidget->setObjectName("layoutWidget");
-        layoutWidget->setGeometry(QRect(70, 330, 143, 111));
+        layoutWidget->setGeometry(QRect(70, 330, 143, 498));
         verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -321,7 +321,7 @@ public:
         mainStackWidget->addWidget(TreePage);
         layoutWidget_2 = new QWidget(centralwidget);
         layoutWidget_2->setObjectName("layoutWidget_2");
-        layoutWidget_2->setGeometry(QRect(300, 320, 175, 211));
+        layoutWidget_2->setGeometry(QRect(300, 320, 175, 376));
         verticalLayout_2 = new QVBoxLayout(layoutWidget_2);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
@@ -332,6 +332,7 @@ public:
         verticalLayout_2->addWidget(lbAlgos_4);
 
         AlgoComboBox_2 = new QComboBox(layoutWidget_2);
+        AlgoComboBox_2->addItem(QString());
         AlgoComboBox_2->addItem(QString());
         AlgoComboBox_2->addItem(QString());
         AlgoComboBox_2->addItem(QString());
@@ -535,6 +536,7 @@ public:
         AlgoComboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "Dijkstra", nullptr));
         AlgoComboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "Prim", nullptr));
         AlgoComboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "Tarjan", nullptr));
+        AlgoComboBox_2->setItemText(3, QCoreApplication::translate("MainWindow", "A*", nullptr));
 
         lbAlgos_5->setText(QCoreApplication::translate("MainWindow", "Interval[ms]:", nullptr));
         lbRandom_2->setText(QString());

@@ -59,10 +59,14 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         "edgeIndex",
         "enableGraphButtons",
         "disableGraphButtons",
+        "handleAStarNodeInput",
+        "clickPos",
         "promptForSrcDest",
         "enableTreeButtons",
         "disableTreeButtons",
         "promptForTreeNodes",
+        "onAlgoComboChanged",
+        "index",
         "setElapsedTime",
         "time"
     };
@@ -102,17 +106,25 @@ template <> constexpr inline auto MainWindow::qt_create_metaobjectdata<qt_meta_t
         QtMocHelpers::SlotData<void()>(19, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'disableGraphButtons'
         QtMocHelpers::SlotData<void()>(20, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'handleAStarNodeInput'
+        QtMocHelpers::SlotData<void(const QPoint &)>(21, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 16, 22 },
+        }}),
         // Slot 'promptForSrcDest'
-        QtMocHelpers::SlotData<void()>(21, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'enableTreeButtons'
-        QtMocHelpers::SlotData<void()>(22, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'disableTreeButtons'
         QtMocHelpers::SlotData<void()>(23, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'promptForTreeNodes'
+        // Slot 'enableTreeButtons'
         QtMocHelpers::SlotData<void()>(24, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'disableTreeButtons'
+        QtMocHelpers::SlotData<void()>(25, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'promptForTreeNodes'
+        QtMocHelpers::SlotData<void()>(26, 2, QMC::AccessPrivate, QMetaType::Void),
+        // Slot 'onAlgoComboChanged'
+        QtMocHelpers::SlotData<void(int)>(27, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::Int, 28 },
+        }}),
         // Slot 'setElapsedTime'
-        QtMocHelpers::SlotData<void(int)>(25, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::Int, 26 },
+        QtMocHelpers::SlotData<void(int)>(29, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 30 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
@@ -153,11 +165,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 13: _t->handleEdgeValueInput((*reinterpret_cast<std::add_pointer_t<QPoint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2]))); break;
         case 14: _t->enableGraphButtons(); break;
         case 15: _t->disableGraphButtons(); break;
-        case 16: _t->promptForSrcDest(); break;
-        case 17: _t->enableTreeButtons(); break;
-        case 18: _t->disableTreeButtons(); break;
-        case 19: _t->promptForTreeNodes(); break;
-        case 20: _t->setElapsedTime((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 16: _t->handleAStarNodeInput((*reinterpret_cast<std::add_pointer_t<QPoint>>(_a[1]))); break;
+        case 17: _t->promptForSrcDest(); break;
+        case 18: _t->enableTreeButtons(); break;
+        case 19: _t->disableTreeButtons(); break;
+        case 20: _t->promptForTreeNodes(); break;
+        case 21: _t->onAlgoComboChanged((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 22: _t->setElapsedTime((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
         default: ;
         }
     }
@@ -182,14 +196,14 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 21)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 23;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 21)
+        if (_id < 23)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 21;
+        _id -= 23;
     }
     return _id;
 }
