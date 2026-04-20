@@ -128,17 +128,25 @@ private:
     int destinationNodeId = -1;
     int intervalLength = 50;
     int time=0;
-    QString currentStatus;
+    QString currentStatusText;  // the action message
+    int displayEnqueueCount = 0;
+    int displayQueueSize = 0;
+    bool showStatsOverlay = false;
     bool isAStarMode = false;
     const int NodeRadius = 30;
     int findNodeIdAt(const QPoint &point);
     int findEdgeAt(const QPoint &point);
     Node* getNodeById(int id);
     bool edgeExists(int id1, int id2);
-    QList<QString> statusList;   // parallel to stepsList, one message per step
+    struct StepStatus {
+        QString text;
+        int enqueueCount = -1;  // -1 means "don't update this field"
+        int queueSize    = -1;
+    };
+    QList<StepStatus> statusList;
     int enqueueCount = 0;
     int currentQueueSize = 0;
-    void addStep(int cmd, int v1, int v2, const QString &status = "");
+    void addStep(int cmd, int v1, int v2,const QString &status = "",int eq = -1, int qs = -1);
 };
 
 #endif // GRAPHVISUALIZER_H

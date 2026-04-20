@@ -135,29 +135,36 @@ void GraphVisualizer::paintEvent(QPaintEvent *event)
 
     }
 
-    // ── Status overlay (top-left) ──────────────────────────────────────────
-    if (!currentStatus.isEmpty()) {
+    // ── Stats overlay (top-left) ─────────────────────────────────────────
+    if (showStatsOverlay) {
         painter.setFont(QFont("Arial", 11, QFont::Bold));
-
         QFontMetrics fm(painter.font());
-        int padding = 8;
-        QRect textBound = fm.boundingRect(
-            QRect(0, 0, width(), 100),
-            Qt::AlignLeft | Qt::TextWordWrap,
-            currentStatus);
 
-        QRect bgRect(10, 10,
-                     textBound.width()  + padding * 2,
-                     textBound.height() + padding * 2);
+        QStringList lines = {
+            "Current Status:  " + (currentStatusText.isEmpty() ? "-" : currentStatusText),
+            "Enqueued:  "       + QString::number(displayEnqueueCount),
+            "Queue Size:  "     + QString::number(displayQueueSize)
+        };
 
-        painter.setBrush(QColor(0, 0, 0, 160));
+        int padding  = 10;
+        int lineH    = fm.height() + 4;
+        int boxW     = 0;
+        for (const QString &l : lines)
+            boxW = qMax(boxW, fm.horizontalAdvance(l));
+        int boxH = lineH * lines.size() + padding;
+
+        QRect bgRect(10, 10, boxW + padding * 2, boxH + padding);
+        painter.setBrush(QColor(0, 0, 0, 180));
         painter.setPen(Qt::NoPen);
         painter.drawRoundedRect(bgRect, 6, 6);
 
         painter.setPen(Qt::white);
-        painter.drawText(bgRect.adjusted(padding, padding, -padding, -padding),
-                         Qt::AlignLeft | Qt::TextWordWrap,
-                         currentStatus);
+        for (int i = 0; i < lines.size(); ++i) {
+            painter.drawText(
+                10 + padding,
+                10 + padding + i * lineH + fm.ascent(),
+                lines[i]);
+        }
     }
 }
 void GraphVisualizer::mousePressEvent(QMouseEvent *event)
@@ -251,7 +258,10 @@ void GraphVisualizer::setEdgeValueMode(bool enabled)
 void GraphVisualizer::clearCanvas(){
     nodes.clear();
     edges.clear();
-    currentStatus="";
+    currentStatusText   = "";
+    displayEnqueueCount = 0;
+    displayQueueSize    = 0;
+    showStatsOverlay    = false;
     firstSelectedNodeId = -1;
     requiredNodeCount = 0;
     isAStarMode = false;
@@ -331,12 +341,13 @@ bool GraphVisualizer::GraphVisualizer::edgeExists(int id1, int id2)
     }
     return false;
 }
-
-void GraphVisualizer::addStep(int cmd, int v1, int v2, const QString &status)
+void GraphVisualizer::addStep(int cmd, int v1, int v2,
+                              const QString &status, int eq, int qs)
 {
     stepsList.append(std::make_tuple(cmd, v1, v2));
-    statusList.append(status);
+    statusList.append({status, eq, qs});
 }
+
 GraphVisualizer::Node *GraphVisualizer::getNodeById(int id)
 {
     for (int i = 0; i < nodes.size(); ++i) {
@@ -379,7 +390,10 @@ void GraphVisualizer::startAlgorithm(int algorithmIndex, int srcId, int destId, 
     enqueueCount = 0;
     currentQueueSize = 0;
     currentStepIndex = 0;
-    currentStatus="";
+    currentStatusText   = "";
+    displayEnqueueCount = 0;
+    displayQueueSize    = 0;
+    showStatsOverlay    = (algorithmIndex == 0 || algorithmIndex == 3);
     intervalLength = interval;
     destinationNodeId = destId;
 
@@ -489,9 +503,13 @@ void GraphVisualizer::processNextStep()
     int val1 = std::get<1>(step); // Node ID or Edge Index
     int val2 = std::get<2>(step); // Color or Distance
     if (currentStepIndex < statusList.size()) {
-        QString s = statusList[currentStepIndex];
-        if (!s.isEmpty())
-            currentStatus = s;
+        const StepStatus &s = statusList[currentStepIndex];
+        if (!s.text.isEmpty())
+            currentStatusText = s.text;
+        if (s.enqueueCount != -1)
+            displayEnqueueCount = s.enqueueCount;
+        if (s.queueSize != -1)
+            displayQueueSize = s.queueSize;
     }
     switch (command) {
     case HIGHLIGHT_NODE: {
@@ -536,9 +554,7 @@ void GraphVisualizer::dijkstraAlgorithm(int srcId, int destId)
     int eq = 1;          // enqueue counter (local, for building status strings)
     int qs = 1;          // queue size (local)
 
-    addStep(HIGHLIGHT_NODE, srcId, CurrentNodeColor,
-            QString("Node %1 enqueued  |  Enqueued: %2  |  Queue size: %3")
-                .arg(srcId).arg(eq).arg(qs));
+    addStep(HIGHLIGHT_NODE, srcId, CurrentNodeColor,"Node " + QString::number(srcId) + " enqueued", eq, qs);
     addStep(SET_DISTANCE, srcId, 0, "");
 
     while (!pq.empty()) {
@@ -549,9 +565,7 @@ void GraphVisualizer::dijkstraAlgorithm(int srcId, int destId)
 
         if (d > distance[u_id]) continue;
 
-        addStep(HIGHLIGHT_NODE, u_id, CurrentNodeColor,
-                QString("Node %1 dequeued  |  Enqueued: %2  |  Queue size: %3")
-                    .arg(u_id).arg(eq).arg(qs));
+        addStep(HIGHLIGHT_NODE, u_id, CurrentNodeColor,"Node " + QString::number(u_id) + " dequeued", eq, qs);
 
         QList<int> edgesToReset;
 
@@ -563,9 +577,8 @@ void GraphVisualizer::dijkstraAlgorithm(int srcId, int destId)
 
             if (v_id != -1) {
                 int weight = edge.value;
-                addStep(HIGHLIGHT_EDGE, i, HighlightEdgeColor,
-                        QString("Checking edge %1 → %2 (weight %3)")
-                            .arg(u_id).arg(v_id).arg(weight));
+                addStep(HIGHLIGHT_EDGE, i, HighlightEdgeColor,QString("Checking edge %1 → %2 (weight %3)").arg(u_id).arg(v_id).arg(weight));
+
 
                 if (distance[u_id] != INT_MAX && distance[u_id] + weight < distance[v_id]) {
                     distance[v_id] = distance[u_id] + weight;
@@ -574,18 +587,14 @@ void GraphVisualizer::dijkstraAlgorithm(int srcId, int destId)
                     eq++; qs++;
 
                     addStep(SET_DISTANCE, v_id, distance[v_id], "");
-                    addStep(HIGHLIGHT_NODE, v_id, VisitedNodeColor,
-                            QString("Node %1 enqueued (dist %2)  |  Enqueued: %3  |  Queue size: %4")
-                                .arg(v_id).arg(distance[v_id]).arg(eq).arg(qs));
+                    addStep(HIGHLIGHT_NODE, v_id, VisitedNodeColor,QString("Node %1 enqueued (dist %2)").arg(v_id).arg(distance[v_id]),eq, qs);
                     addStep(HIGHLIGHT_EDGE, i, TentativeEdgeColor, "");
                 }
                 edgesToReset.append(i);
             }
         }
 
-        addStep(HIGHLIGHT_NODE, u_id, VisitedNodeColor,
-                QString("Node %1 settled  |  Enqueued: %2  |  Queue size: %3")
-                    .arg(u_id).arg(eq).arg(qs));
+        addStep(HIGHLIGHT_NODE, u_id, VisitedNodeColor,"Node " + QString::number(u_id) + " settled", eq, qs);
 
         if (u_id == destId) break;
     }
@@ -606,12 +615,11 @@ void GraphVisualizer::dijkstraAlgorithm(int srcId, int destId)
                 break;
             }
         }
-        addStep(HIGHLIGHT_NODE, currId, PathNodeColor,
-                QString("Path: Node %1 ← Node %2").arg(currId).arg(pId));
+        addStep(HIGHLIGHT_NODE, currId, PathNodeColor,QString("Path: Node %1 ← Node %2").arg(currId).arg(pId));
         currId = pId;
     }
 
-    addStep(HIGHLIGHT_NODE, srcId,  SourceNodeColor,      "Dijkstra complete.");
+    addStep(HIGHLIGHT_NODE, srcId, SourceNodeColor, "Dijkstra complete.");
     addStep(HIGHLIGHT_NODE, destId, DestinationNodeColor, "");
 
     for (auto &node : nodes)
@@ -695,7 +703,6 @@ void GraphVisualizer::setNumberOfNodesAStar(int count)
 
 void GraphVisualizer::aStarAlgorithm(int srcId, int destId)
 {
-    // Label helper: uses node.label if set, else "Node X"
     auto nodeLabel = [&](int id) -> QString {
         Node *n = getNodeById(id);
         if (!n) return QString("Node %1").arg(id);
@@ -727,16 +734,17 @@ void GraphVisualizer::aStarAlgorithm(int srcId, int destId)
     std::priority_queue<T, std::vector<T>, std::greater<T>> openSet;
     openSet.push({fCost[srcId], srcId});
 
-    int eq = 1, qs = 1;
+    int eq = 1, qs = 1;  // local counters for building steps
 
     QMap<int, bool> visited;
     for (const auto &node : nodes) visited[node.id] = false;
 
+    // ── Source node enqueued ─────────────────────────────────────────────────
     addStep(HIGHLIGHT_NODE, srcId, CurrentNodeColor,
-            QString("%1 enqueued  |  Enqueued: %2  |  Queue size: %3")
-                .arg(nodeLabel(srcId)).arg(eq).arg(qs));
-    addStep(SET_DISTANCE, srcId, 0, "");
+            QString("%1 enqueued").arg(nodeLabel(srcId)), eq, qs);
+    addStep(SET_DISTANCE, srcId, 0);
 
+    // ── Main loop ────────────────────────────────────────────────────────────
     while (!openSet.empty()) {
         auto [curF, u_id] = openSet.top();
         openSet.pop();
@@ -745,12 +753,14 @@ void GraphVisualizer::aStarAlgorithm(int srcId, int destId)
         if (visited[u_id]) continue;
         visited[u_id] = true;
 
+        // Dequeue current node
         addStep(HIGHLIGHT_NODE, u_id, CurrentNodeColor,
-                QString("%1 dequeued  |  Enqueued: %2  |  Queue size: %3")
-                    .arg(nodeLabel(u_id)).arg(eq).arg(qs));
+                QString("%1 dequeued").arg(nodeLabel(u_id)), eq, qs);
 
+        // Goal reached
         if (u_id == destId) break;
 
+        // ── Relax neighbours ─────────────────────────────────────────────────
         for (int i = 0; i < edges.size(); ++i) {
             const auto &edge = edges.at(i);
             int v_id = -1;
@@ -759,8 +769,9 @@ void GraphVisualizer::aStarAlgorithm(int srcId, int destId)
 
             if (v_id == -1 || visited[v_id]) continue;
 
+            // Probe edge
             addStep(HIGHLIGHT_EDGE, i, HighlightEdgeColor,
-                    QString("Checking edge %1 → %2")
+                    QString("Checking %1 → %2")
                         .arg(nodeLabel(u_id)).arg(nodeLabel(v_id)));
 
             float tentativeG = gCost[u_id] + static_cast<float>(edge.value);
@@ -772,44 +783,55 @@ void GraphVisualizer::aStarAlgorithm(int srcId, int destId)
                 openSet.push({fCost[v_id], v_id});
                 eq++; qs++;
 
-                addStep(SET_DISTANCE, v_id, static_cast<int>(tentativeG), "");
+                addStep(SET_DISTANCE, v_id, static_cast<int>(tentativeG));
                 addStep(HIGHLIGHT_NODE, v_id, VisitedNodeColor,
-                        QString("%1 enqueued (g=%.1f)  |  Enqueued: %2  |  Queue size: %3")
-                            .arg(nodeLabel(v_id)).arg(tentativeG).arg(eq).arg(qs));
-                addStep(HIGHLIGHT_EDGE, i, TentativeEdgeColor, "");
+                        QString("%1 enqueued (g=%2)")
+                            .arg(nodeLabel(v_id))
+                            .arg(static_cast<int>(tentativeG)),
+                        eq, qs);
+                addStep(HIGHLIGHT_EDGE, i, TentativeEdgeColor);
             } else {
-                addStep(HIGHLIGHT_EDGE, i, DefaultEdgeColor, "");
+                // Edge not useful
+                addStep(HIGHLIGHT_EDGE, i, DefaultEdgeColor,
+                        QString("%1 → %2 not improved")
+                            .arg(nodeLabel(u_id)).arg(nodeLabel(v_id)));
             }
         }
 
+        // Node fully settled
         addStep(HIGHLIGHT_NODE, u_id, VisitedNodeColor,
-                QString("%1 settled  |  Enqueued: %2  |  Queue size: %3")
-                    .arg(nodeLabel(u_id)).arg(eq).arg(qs));
+                QString("%1 settled").arg(nodeLabel(u_id)), eq, qs);
     }
 
+    // ── Reset all edges before final path ────────────────────────────────────
     for (int j = 0; j < edges.size(); ++j)
-        addStep(HIGHLIGHT_EDGE, j, DefaultEdgeColor, "");
+        addStep(HIGHLIGHT_EDGE, j, DefaultEdgeColor);
 
+    // ── Traceback ────────────────────────────────────────────────────────────
     int currId = destId;
     while (currId != -1 && currId != srcId) {
         int pId = parent[currId];
         if (pId == -1) break;
+
         for (int i = 0; i < edges.size(); ++i) {
             const auto &edge = edges.at(i);
             if ((edge.node1Id == currId && edge.node2Id == pId) ||
                 (edge.node1Id == pId   && edge.node2Id == currId)) {
-                addStep(HIGHLIGHT_EDGE, i, FinalPathEdgeColor, "");
+                addStep(HIGHLIGHT_EDGE, i, FinalPathEdgeColor);
                 break;
             }
         }
         addStep(HIGHLIGHT_NODE, currId, PathNodeColor,
-                QString("Path: %1 ← %2").arg(nodeLabel(currId)).arg(nodeLabel(pId)));
+                QString("Path: %1 ← %2")
+                    .arg(nodeLabel(currId)).arg(nodeLabel(pId)));
         currId = pId;
     }
 
+    // ── Final state ──────────────────────────────────────────────────────────
     addStep(HIGHLIGHT_NODE, srcId,  SourceNodeColor,      "A* complete.");
     addStep(HIGHLIGHT_NODE, destId, DestinationNodeColor, "");
 
+    // Persist final g-costs into nodes for the "D:" display
     for (auto &node : nodes) {
         float g = gCost.value(node.id, std::numeric_limits<float>::infinity());
         node.distance = (g == std::numeric_limits<float>::infinity())
