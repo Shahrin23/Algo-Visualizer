@@ -153,6 +153,12 @@ void TreeVisualizer::startAlgorithm(int algoIndex, int interval) {
     stepsList.clear();
     currentStepIndex = 0;
     intervalLength = interval;
+    traversalResult.clear();
+
+    if      (algoIndex == 0) traversalLabel = "InOrder";
+    else if (algoIndex == 1) traversalLabel = "PreOrder";
+    else if (algoIndex == 2) traversalLabel = "PostOrder";
+
     for (int i = 0; i < treeNodes.size(); ++i) {
         treeNodes[i].color = Qt::white;
     }
@@ -180,7 +186,12 @@ void TreeVisualizer::processNextStep() {
         return;
     }
     auto [cmd, idx, color] = stepsList[currentStepIndex++];
-    if (cmd == HIGHLIGHT_NODE_TREE) treeNodes[idx].color = color;
+    if (cmd == HIGHLIGHT_NODE_TREE){
+        treeNodes[idx].color = color;
+
+        if (color == Qt::magenta)
+            traversalResult.append(treeNodes[idx].val);
+    }
     update();
 }
 void TreeVisualizer::paintEvent(QPaintEvent *) {
@@ -197,6 +208,32 @@ void TreeVisualizer::paintEvent(QPaintEvent *) {
         painter.setPen(Qt::black);
         painter.drawEllipse(node.pos, 20, 20);
         painter.drawText(QRectF(node.pos.x()-20, node.pos.y()-20, 40, 40), Qt::AlignCenter, QString::number(node.val));
+    }
+    // ── Traversal result overlay (bottom-right) ──────────────────────────
+    if (!traversalLabel.isEmpty()) {
+        // Build the display string
+        QString resultStr = traversalLabel + ":";
+        for (int v : traversalResult)
+            resultStr += "  " + QString::number(v);
+
+        painter.setFont(QFont("Arial", 12, QFont::Bold));
+        QFontMetrics fm(painter.font());
+
+        int padding = 10;
+        int textW   = fm.horizontalAdvance(resultStr);
+        int textH   = fm.height();
+
+        QRect bgRect(width()  - textW - padding * 3,
+                     height() - textH - padding * 3,
+                     textW    + padding * 2,
+                     textH    + padding * 2);
+
+        painter.setBrush(QColor(0, 0, 0, 180));
+        painter.setPen(Qt::NoPen);
+        painter.drawRoundedRect(bgRect, 6, 6);
+
+        painter.setPen(Qt::white);
+        painter.drawText(bgRect, Qt::AlignCenter, resultStr);
     }
 }
 void TreeVisualizer::updateTimeElapsed() {

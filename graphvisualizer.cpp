@@ -153,7 +153,9 @@ void GraphVisualizer::paintEvent(QPaintEvent *event)
             boxW = qMax(boxW, fm.horizontalAdvance(l));
         int boxH = lineH * lines.size() + padding;
 
-        QRect bgRect(10, 10, boxW + padding * 2, boxH + padding);
+        int boxTotalW = boxW + padding * 2;
+        int boxTotalH = boxH + padding;
+        QRect bgRect(width() - boxTotalW - 10,10,boxTotalW,boxTotalH);
         painter.setBrush(QColor(0, 0, 0, 180));
         painter.setPen(Qt::NoPen);
         painter.drawRoundedRect(bgRect, 6, 6);
@@ -161,8 +163,8 @@ void GraphVisualizer::paintEvent(QPaintEvent *event)
         painter.setPen(Qt::white);
         for (int i = 0; i < lines.size(); ++i) {
             painter.drawText(
-                10 + padding,
-                10 + padding + i * lineH + fm.ascent(),
+                bgRect.left() + padding,
+                bgRect.top() + padding + i * lineH + fm.ascent(),
                 lines[i]);
         }
     }
@@ -514,7 +516,13 @@ void GraphVisualizer::processNextStep()
     switch (command) {
     case HIGHLIGHT_NODE: {
         if (Node *node = getNodeById(val1)) {
-            node->colorState = val2;
+            bool isSrcOrDest = (node->colorState == SourceNodeColor ||node->colorState == DestinationNodeColor);
+            bool settingToSrcOrDest = (val2 == SourceNodeColor ||val2 == DestinationNodeColor);
+
+            if (isSrcOrDest && !settingToSrcOrDest) {
+            } else {
+                node->colorState = val2;
+            }
         }
         break;
     }

@@ -875,7 +875,6 @@ C:/Users/Lenovo/Documents/AlgoVisualizer/mainwindow.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/mainwindow.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/sortvisualizer.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/treevisualizer.h
-C:/Users/Lenovo/Documents/AlgoVisualizer/main.cpp
 C:/Users/Lenovo/Documents/AlgoVisualizer/sortvisualizer.h
  mmc:Q_OBJECT
  mdp:C:/Qt/6.10.1/mingw_64/include/QtCore/QElapsedTimer
@@ -1260,8 +1259,7 @@ C:/Users/Lenovo/Documents/AlgoVisualizer/sortvisualizer.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/AlgoVisualizer_autogen/moc_predefs.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/sortvisualizer.h
-C:/Users/Lenovo/Documents/AlgoVisualizer/mainwindow.cpp
- uic:./ui_mainwindow.h
+C:/Users/Lenovo/Documents/AlgoVisualizer/main.cpp
 C:/Users/Lenovo/Documents/AlgoVisualizer/treevisualizer.h
  mmc:Q_OBJECT
  mdp:C:/Qt/6.10.1/mingw_64/include/QtCore/QElapsedTimer
@@ -1652,6 +1650,8 @@ C:/Users/Lenovo/Documents/AlgoVisualizer/treevisualizer.h
  mdp:C:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wchar.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/build/Desktop_Qt_6_10_1_MinGW_64_bit-Debug/AlgoVisualizer_autogen/moc_predefs.h
  mdp:C:/Users/Lenovo/Documents/AlgoVisualizer/treevisualizer.h
+C:/Users/Lenovo/Documents/AlgoVisualizer/mainwindow.cpp
+ uic:./ui_mainwindow.h
 C:/Users/Lenovo/Documents/AlgoVisualizer/graphvisualizer.cpp
 C:/Users/Lenovo/Documents/AlgoVisualizer/sortvisualizer.cpp
 C:/Users/Lenovo/Documents/AlgoVisualizer/treevisualizer.cpp

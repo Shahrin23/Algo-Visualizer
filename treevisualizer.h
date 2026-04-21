@@ -58,6 +58,8 @@ private:
     void generatePreOrder();
     void generateInOrder();
     void generatePostOrder();
+    QList<int> traversalResult;
+    QString traversalLabel;
 };
 
 #endif // TREEVISUALIZER_H
