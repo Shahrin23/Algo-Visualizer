@@ -41,7 +41,6 @@ Follow these steps to explore the visualizer:
     * Press **Start** to begin (nodes will reset to their default color before starting).
     * Press **Stop** to halt the animation at any time.
       
-5.  **Terminal Feedback :** The final traversal sequence is printed to the terminal console for verification.
 
 ---
 
@@ -54,11 +53,10 @@ Follow these steps to explore the visualizer:
 ### Setup
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/AntaraAn/Algo-Visualizer.git](https://github.com/AntaraAn/Algo-Visualizer.git)
+    git clone [https://github.com/Shahrin23/Algo-Visualizer.git](https://github.com/Shahrin23/Algo-Visualizer.git)
     ```
 2.  Open `CMakeLists.txt` file in **Qt Creator**.
 3.  Ensure the console output is enabled in your configuration to see the traversal logs.
-4.  Build and run the project using `Ctrl + R`.
 
 ---
 
