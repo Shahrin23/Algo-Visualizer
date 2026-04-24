@@ -21,7 +21,11 @@ The **Algorithm Visualizer** is an educational tool built with **C++** and the *
 ## 2. Watch Visualizer Demo:
 
 
-https://github.com/user-attachments/assets/42a1cb8f-8c80-4133-95f1-a15a3ad56b80
+
+
+https://github.com/user-attachments/assets/791b6ddd-7de3-45db-a016-07334e49343c
+
+
 
 
 ## 3. User Instructions
@@ -56,7 +60,7 @@ Follow these steps to explore the visualizer:
     git clone https://github.com/Shahrin23/Algo-Visualizer.git
     ```
 2.  Open `CMakeLists.txt` file in **Qt Creator**.
-3.  Ensure the console output is enabled in your configuration to see the traversal logs.
+3.  Ensure the console output is enabled in your configuration.
 
 ---
 
@@ -66,7 +70,6 @@ Any contribution that improves algorithm efficiency or add new visualization typ
 * **Code Style:** Keep UI logic in `MainWindow` and visualization logic within the specific visualizer classes (`TreeVisualizer`, `GraphVisualizer`, etc.).
 * **Animation System:** New algorithms should use the `stepsList` pattern with `std::tuple` to ensure smooth, non-blocking animations.
 * **Branching:** Please create a feature branch (`git checkout -b feature/NewAlgo`) before submitting a Pull Request.
-* **Verification:** Ensure all traversals are printed to the terminal using `qDebug()` or `QTextStream(stdout)`.
 
 ---
 
